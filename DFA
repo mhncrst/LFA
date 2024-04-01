@@ -1,0 +1,52 @@
+def print_matrice(matrice):
+    for linie in matrice:
+        print(*linie)
+
+
+f = open("file")
+numarStari = int(f.readline())
+stari = f.readline()
+stari = [int(element) for element in stari.split()]
+numarLitere = int(f.readline())
+s = f.readline()
+litere =  s.split()
+stareaInitiala = int(f.readline())
+numarStariFinale = int(f.readline())
+stariFinale = f.readline()
+stariFinale = [int(element) for element in stariFinale.split()]
+numarTranzitii = int(f.readline())
+dictionar = {}
+for i in range(numarTranzitii):
+    s = f.readline()
+    s = s.split()
+    s[0] = int(s[0])
+    s[2] = int(s[2])
+    if s[0] not in dictionar:
+        dictionar[s[0]] = {s[1] : s[2]}
+    else:
+        dictionar[s[0]][s[1]] = s[2]
+NumarCuvinte = int(f.readline())
+s = f.readline()
+cuvinte = []
+while s != "":
+    cuvinte.append(s.strip())
+    s = f.readline()
+
+for cuvant in cuvinte:
+    if cuvant == "":
+        if 1 in stariFinale:
+            print("DA")
+        else:
+            print("NU")
+    else:
+        stare_curenta = stareaInitiala
+        for litera in cuvant :
+            if stare_curenta in dictionar and litera in dictionar[stare_curenta]:
+                stare_curenta = dictionar[stare_curenta][litera]
+            else:
+                stare_curenta = -1
+                break
+        if stare_curenta != -1 and stare_curenta in stariFinale:
+            print("DA")
+        else:
+            print("NU")
