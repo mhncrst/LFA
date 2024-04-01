@@ -1,0 +1,61 @@
+def print_matrice(matrice):
+    for linie in matrice:
+        print(*linie)
+
+
+f = open("fisier")
+numarStari = int(f.readline())
+stari = f.readline()
+stari = [int(element) for element in stari.split()]
+numarLitere = int(f.readline())
+s = f.readline()
+litere =  s.split()
+stareaInitiala = int(f.readline())
+numarStariFinale = int(f.readline())
+stariFinale = f.readline()
+stariFinale = [int(element) for element in stariFinale.split()]
+numarTranzitii = int(f.readline())
+dictionar = {}
+for i in range(numarTranzitii):
+    s = f.readline()
+    s = s.split()
+    s[0] = int(s[0])
+    s[2] = int(s[2])
+    if s[0] not in dictionar:
+        dictionar[s[0]] = {s[1] : [s[2]]}
+    else:
+        if s[1] not in dictionar[s[0]]:
+            dictionar[s[0]][s[1]] = [s[2]]
+        else:
+            dictionar[s[0]][s[1]].append(s[2])
+
+NumarCuvinte = int(f.readline())
+s = f.readline()
+cuvinte = []
+while s != "":
+    cuvinte.append(s.strip())
+    s = f.readline()
+
+for cuvant in cuvinte:
+    if cuvant == "":
+        if 1 in stariFinale:
+            print("DA")
+        else:
+            print("NU")
+    else:
+        raspuns = 0
+        stari_curente = [stareaInitiala]
+        for litera in cuvant :
+            starile_urmatoare = []
+            for stare in stari_curente:
+                if stare in dictionar and litera in dictionar[stare]:
+                    starile_urmatoare.extend(dictionar[stare][litera])
+                stari_curente = starile_urmatoare
+
+        for stare in stari_curente:
+            if stare in stariFinale:
+                print("DA")
+                raspuns = -1
+                break
+        if raspuns != -1:
+            print("NU")
