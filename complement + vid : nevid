@@ -1,0 +1,80 @@
+f = open("file")
+numarStari = int(f.readline())
+stari = f.readline()
+stari = [int(element) for element in stari.split()]
+numarLitere = int(f.readline())
+s = f.readline()
+litere = s.split()
+stareaInitiala = int(f.readline())
+numarStariFinale = int(f.readline())
+stariFinale = f.readline()
+stariFinale = [int(element) for element in stariFinale.split()]
+numarTranzitii = int(f.readline())
+dictionar = {}
+for i in range(numarTranzitii):
+    s = f.readline()
+    s = s.split()
+    s[0] = int(s[0])
+    s[2] = int(s[2])
+    if s[0] not in dictionar:
+        dictionar[s[0]] = {s[1]: s[2]}
+    else:
+        dictionar[s[0]][s[1]] = s[2]
+NumarCuvinte = int(f.readline())
+s = f.readline()
+cuvinte = []
+cuvant_verificat = ""
+lista_finala = []
+da = 0
+nu = 0
+while s != "":
+    cuvinte.append(s.strip())
+    s = f.readline()
+
+
+for stare in stari:
+    litere_folosite = set()
+    for litera in litere:
+        if stare in dictionar and litera in dictionar[stare]:
+            litere_folosite.add(litera)
+    litere_nefolosite = [litera for litera in litere if litera not in litere_folosite]
+    for litera in litere_nefolosite:
+        if stare not in dictionar:
+            dictionar[stare] = {litera: 0}
+        else:
+            dictionar[stare][litera] = 0
+dictionar[0] = {}
+for litera in litere:
+    dictionar[0][litera] = 0
+numarStari += 1
+print(numarStari)
+stari.append(0)
+print(*stari)
+print(numarLitere)
+print(*litere, "")
+print(stareaInitiala)
+print(numarStari - numarStariFinale)
+stari_finale_complement = [stare for stare in stari if stare not in stariFinale]
+print(*stari_finale_complement)
+tranzitii = 0
+for stare in dictionar:
+    for tranzitie in dictionar[stare]:
+        tranzitii +=1
+print(tranzitii)
+for stare in dictionar:
+    for tranzitie in dictionar[stare]:
+        destinatie = dictionar[stare][tranzitie]
+        print(f"{stare} {tranzitie} {destinatie}")
+stare_curenta = stareaInitiala
+da = 0
+
+for litera, urmatoarea_stare in dictionar[stare_curenta].items():
+    stare_curenta = urmatoarea_stare
+
+    if stare_curenta in stariFinale:
+            da += 1
+
+if da > 0:
+    print("Limbajul recunoscut nu este vid")
+else:
+    print("Limbajul recunoscut este vid")
